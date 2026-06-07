@@ -76,7 +76,7 @@ export default function ScrollPortfolio() {
 
           {/* Main winding path — cartoon/illustration style */}
           <motion.path
-            d="M 239 24 C 40 10, -38 189, 180 335 C 203 365, 334 437, 399 261"
+            d="M 178 94 C -195 143, -827 1032, 1001 295 C 1236 180, 1565 721, 675 793"
             fill="none"
             stroke="#1a1a1a"
             strokeWidth="5.5"
@@ -338,7 +338,7 @@ export default function ScrollPortfolio() {
           {/* Small circle doodle near button */}
           <motion.circle
             cx="800"
-            cy="800"
+            cy="780"
             r="22"
             fill="none"
             stroke="#1a1a1a"
