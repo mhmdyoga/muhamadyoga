@@ -86,239 +86,273 @@ export default function ScrollPortfolio() {
           />
 
           {/* rocket */}
-       {/* Roket group — rotate -45deg, ukuran ~70px tinggi */}
-<g transform="rotate(45, 220, 200)">
+          {/* Roket group — rotate -45deg, ukuran ~70px tinggi */}
+          <g transform="rotate(45, 220, 200)">
+            {/* === BADAN ROKET === */}
+            <motion.path
+              d="M 220 148 C 230 150, 238 160, 239 172 L 239 242 L 201 242 L 201 172 C 202 160, 210 150, 220 148 Z"
+              fill="#f5f4f0"
+              stroke="#1a1a1a"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+              style={{ pathLength: useTransform(smooth, [0.0, 0.2], [0, 1]) }}
+              strokeLinecap="round"
+            />
 
-  {/* === BADAN ROKET === */}
-  <motion.path
-    d="M 220 148 C 230 150, 238 160, 239 172 L 239 242 L 201 242 L 201 172 C 202 160, 210 150, 220 148 Z"
-    fill="#f5f4f0"
-    stroke="#1a1a1a"
-    strokeWidth="1.5"
-    strokeLinejoin="round"
-    style={{ pathLength: useTransform(smooth, [0.0, 0.2], [0, 1]) }}
-    strokeLinecap="round"
-  />
+            {/* stripe biru */}
+            <motion.path
+              d="M 201 210 L 239 210 L 239 221 L 201 221 Z"
+              fill="#2a6dd9"
+              stroke="none"
+              style={{ pathLength: useTransform(smooth, [0.05, 0.2], [0, 1]) }}
+            />
 
-  {/* stripe biru */}
-  <motion.path
-    d="M 201 210 L 239 210 L 239 221 L 201 221 Z"
-    fill="#2a6dd9"
-    stroke="none"
-    style={{ pathLength: useTransform(smooth, [0.05, 0.2], [0, 1]) }}
-  />
+            {/* sirip kiri */}
+            <motion.path
+              d="M 201 224 L 183 244 L 201 241 Z"
+              fill="#2a6dd9"
+              stroke="#1a1a1a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+              style={{ pathLength: useTransform(smooth, [0.1, 0.25], [0, 1]) }}
+              strokeLinecap="round"
+            />
 
-  {/* sirip kiri */}
-  <motion.path
-    d="M 201 224 L 183 244 L 201 241 Z"
-    fill="#2a6dd9"
-    stroke="#1a1a1a"
-    strokeWidth="1.2"
-    strokeLinejoin="round"
-    style={{ pathLength: useTransform(smooth, [0.1, 0.25], [0, 1]) }}
-    strokeLinecap="round"
-  />
+            {/* sirip kanan */}
+            <motion.path
+              d="M 239 224 L 257 244 L 239 241 Z"
+              fill="#2a6dd9"
+              stroke="#1a1a1a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+              style={{ pathLength: useTransform(smooth, [0.1, 0.25], [0, 1]) }}
+              strokeLinecap="round"
+            />
 
-  {/* sirip kanan */}
-  <motion.path
-    d="M 239 224 L 257 244 L 239 241 Z"
-    fill="#2a6dd9"
-    stroke="#1a1a1a"
-    strokeWidth="1.2"
-    strokeLinejoin="round"
-    style={{ pathLength: useTransform(smooth, [0.1, 0.25], [0, 1]) }}
-    strokeLinecap="round"
-  />
+            {/* nozzle */}
+            <motion.path
+              d="M 210 240 L 207 250 L 233 250 L 230 240 Z"
+              fill="#c8c7c0"
+              stroke="#1a1a1a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+              style={{ pathLength: useTransform(smooth, [0.15, 0.28], [0, 1]) }}
+              strokeLinecap="round"
+            />
 
-  {/* nozzle */}
-  <motion.path
-    d="M 210 240 L 207 250 L 233 250 L 230 240 Z"
-    fill="#c8c7c0"
-    stroke="#1a1a1a"
-    strokeWidth="1.2"
-    strokeLinejoin="round"
-    style={{ pathLength: useTransform(smooth, [0.15, 0.28], [0, 1]) }}
-    strokeLinecap="round"
-  />
+            {/* jendela luar */}
+            <motion.path
+              d="M 234 188 C 234 198, 228 206, 220 206 C 212 206, 206 198, 206 188 C 206 178, 212 170, 220 170 C 228 170, 234 178, 234 188 Z"
+              fill="none"
+              stroke="#1a1a1a"
+              strokeWidth="1.5"
+              style={{ pathLength: useTransform(smooth, [0.18, 0.32], [0, 1]) }}
+              strokeLinecap="round"
+            />
 
-  {/* jendela luar */}
-  <motion.path
-    d="M 234 188 C 234 198, 228 206, 220 206 C 212 206, 206 198, 206 188 C 206 178, 212 170, 220 170 C 228 170, 234 178, 234 188 Z"
-    fill="none"
-    stroke="#1a1a1a"
-    strokeWidth="1.5"
-    style={{ pathLength: useTransform(smooth, [0.18, 0.32], [0, 1]) }}
-    strokeLinecap="round"
-  />
+            {/* jendela dalam */}
+            <motion.path
+              d="M 230 188 C 230 195, 225 201, 220 201 C 215 201, 210 195, 210 188 C 210 181, 215 175, 220 175 C 225 175, 230 181, 230 188 Z"
+              fill="#cce0ff"
+              stroke="none"
+              style={{ pathLength: useTransform(smooth, [0.2, 0.33], [0, 1]) }}
+            />
 
-  {/* jendela dalam */}
-  <motion.path
-    d="M 230 188 C 230 195, 225 201, 220 201 C 215 201, 210 195, 210 188 C 210 181, 215 175, 220 175 C 225 175, 230 181, 230 188 Z"
-    fill="#cce0ff"
-    stroke="none"
-    style={{ pathLength: useTransform(smooth, [0.2, 0.33], [0, 1]) }}
-  />
+            {/* glare jendela */}
+            <motion.path
+              d="M 213 181 C 215 178, 221 178, 224 181"
+              fill="none"
+              stroke="#ffffff"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              style={{ pathLength: useTransform(smooth, [0.25, 0.35], [0, 1]) }}
+            />
 
-  {/* glare jendela */}
-  <motion.path
-    d="M 213 181 C 215 178, 221 178, 224 181"
-    fill="none"
-    stroke="#ffffff"
-    strokeWidth="1.2"
-    strokeLinecap="round"
-    style={{ pathLength: useTransform(smooth, [0.25, 0.35], [0, 1]) }}
-  />
+            {/* === API === */}
 
-  {/* === API === */}
+            {/* api ungu — cool outer */}
+            <motion.path
+              d="M 210 250 C 202 268, 199 286, 206 300 C 211 290, 216 280, 220 274 C 224 280, 229 290, 234 300 C 241 286, 238 268, 230 250 Z"
+              fill="#a855f7"
+              stroke="none"
+              style={{ pathLength: useTransform(smooth, [0.28, 0.42], [0, 1]) }}
+              opacity={useTransform(smooth, [0.28, 0.42], [0, 0.75])}
+            />
 
-  {/* api ungu — cool outer */}
-  <motion.path
-    d="M 210 250 C 202 268, 199 286, 206 300 C 211 290, 216 280, 220 274 C 224 280, 229 290, 234 300 C 241 286, 238 268, 230 250 Z"
-    fill="#a855f7"
-    stroke="none"
-    style={{ pathLength: useTransform(smooth, [0.28, 0.42], [0, 1]) }}
-    opacity={useTransform(smooth, [0.28, 0.42], [0, 0.75])}
-  />
+            {/* api oranye — outer */}
+            <motion.path
+              d="M 212 250 C 206 264, 203 280, 210 294 C 215 283, 218 273, 220 266 C 222 273, 225 283, 230 294 C 237 280, 234 264, 228 250 Z"
+              fill="#f97316"
+              stroke="none"
+              style={{ pathLength: useTransform(smooth, [0.3, 0.44], [0, 1]) }}
+            />
 
-  {/* api oranye — outer */}
-  <motion.path
-    d="M 212 250 C 206 264, 203 280, 210 294 C 215 283, 218 273, 220 266 C 222 273, 225 283, 230 294 C 237 280, 234 264, 228 250 Z"
-    fill="#f97316"
-    stroke="none"
-    style={{ pathLength: useTransform(smooth, [0.3, 0.44], [0, 1]) }}
-  />
+            {/* api kuning — mid */}
+            <motion.path
+              d="M 214 250 C 209 261, 207 275, 213 287 C 217 278, 219 270, 220 264 C 221 270, 223 278, 227 287 C 233 275, 231 261, 226 250 Z"
+              fill="#fbbf24"
+              stroke="none"
+              style={{ pathLength: useTransform(smooth, [0.33, 0.46], [0, 1]) }}
+            />
 
-  {/* api kuning — mid */}
-  <motion.path
-    d="M 214 250 C 209 261, 207 275, 213 287 C 217 278, 219 270, 220 264 C 221 270, 223 278, 227 287 C 233 275, 231 261, 226 250 Z"
-    fill="#fbbf24"
-    stroke="none"
-    style={{ pathLength: useTransform(smooth, [0.33, 0.46], [0, 1]) }}
-  />
+            {/* api putih — inner core */}
+            <motion.path
+              d="M 217 250 C 214 258, 212 267, 216 276 C 218 269, 219 263, 220 259 C 221 263, 222 269, 224 276 C 228 267, 226 258, 223 250 Z"
+              fill="#fef9c3"
+              stroke="none"
+              style={{ pathLength: useTransform(smooth, [0.35, 0.48], [0, 1]) }}
+            />
+          </g>
 
-  {/* api putih — inner core */}
-  <motion.path
-    d="M 217 250 C 214 258, 212 267, 216 276 C 218 269, 219 263, 220 259 C 221 263, 222 269, 224 276 C 228 267, 226 258, 223 250 Z"
-    fill="#fef9c3"
-    stroke="none"
-    style={{ pathLength: useTransform(smooth, [0.35, 0.48], [0, 1]) }}
-  />
+          {/* === BINTANG === */}
+          <motion.circle
+            cx="290"
+            cy="130"
+            r="2"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.35, 0.45], [0, 1]) }}
+          />
+          <motion.circle
+            cx="320"
+            cy="170"
+            r="1.5"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.37, 0.46], [0, 1]) }}
+          />
+          <motion.circle
+            cx="270"
+            cy="160"
+            r="1.8"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.38, 0.47], [0, 1]) }}
+          />
 
-</g>
+          {/* bintang 4-point */}
+          <motion.path
+            d="M 305 105 L 307 100 L 309 105 L 307 110 Z M 304 105 L 307 103 L 310 105 L 307 107 Z"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.42, 0.52], [0, 1]) }}
+          />
 
+          {/* nebula — awan gas berlapis */}
+          <motion.path
+            d="M 295 285 C 305 270, 328 268, 342 278 C 358 265, 378 272, 374 288 C 388 295, 385 315, 370 320 C 372 335, 358 344, 344 336 C 334 348, 312 344, 308 330 C 292 326, 286 308, 295 285 Z"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ opacity: useTransform(smooth, [0.48, 0.6], [0, 1]) }}
+          />
 
-{/* === BINTANG === */}
-<motion.circle cx="290" cy="130" r="2"
-  fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.35, 0.45], [0, 1]) }}
-/>
-<motion.circle cx="320" cy="170" r="1.5"
-  fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.37, 0.46], [0, 1]) }}
-/>
-<motion.circle cx="270" cy="160" r="1.8"
-  fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.38, 0.47], [0, 1]) }}
-/>
+          {/* lapisan tengah — lebih kecil, agak offset */}
+          <motion.path
+            d="M 308 292 C 316 280, 334 279, 344 288 C 356 280, 368 288, 364 300 C 372 308, 366 322, 354 324 C 350 334, 334 338, 322 330 C 308 332, 300 318, 308 292 Z"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="0.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="3 3"
+            style={{ opacity: useTransform(smooth, [0.51, 0.62], [0, 0.6]) }}
+          />
 
-{/* bintang 4-point */}
-<motion.path
-  d="M 305 105 L 307 100 L 309 105 L 307 110 Z M 304 105 L 307 103 L 310 105 L 307 107 Z"
-  fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.42, 0.52], [0, 1]) }}
-/>
+          {/* inti nebula — oval kecil di tengah */}
+          <motion.path
+            d="M 322 298 C 328 291, 342 291, 348 298 C 354 305, 350 316, 342 319 C 334 322, 322 318, 318 310 C 314 304, 317 298, 322 298 Z"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="0.5"
+            strokeLinecap="round"
+            style={{ opacity: useTransform(smooth, [0.54, 0.64], [0, 0.4]) }}
+          />
 
-{/* nebula — awan gas berlapis */}
-<motion.path
-  d="M 295 285 C 305 270, 328 268, 342 278 C 358 265, 378 272, 374 288 C 388 295, 385 315, 370 320 C 372 335, 358 344, 344 336 C 334 348, 312 344, 308 330 C 292 326, 286 308, 295 285 Z"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="1"
-  strokeLinecap="round"
-  strokeLinejoin="round"
-  style={{ opacity: useTransform(smooth, [0.48, 0.6], [0, 1]) }}
-/>
+          {/* bintang di dalam & sekitar nebula */}
+          <motion.circle
+            cx="318"
+            cy="289"
+            r="1.5"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.53, 0.62], [0, 1]) }}
+          />
+          <motion.circle
+            cx="350"
+            cy="283"
+            r="1"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.54, 0.63], [0, 1]) }}
+          />
+          <motion.circle
+            cx="366"
+            cy="302"
+            r="1.3"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.55, 0.64], [0, 1]) }}
+          />
+          <motion.circle
+            cx="355"
+            cy="326"
+            r="0.9"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.56, 0.65], [0, 1]) }}
+          />
+          <motion.circle
+            cx="320"
+            cy="330"
+            r="1.1"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.57, 0.66], [0, 1]) }}
+          />
+          <motion.circle
+            cx="300"
+            cy="312"
+            r="1.4"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.58, 0.67], [0, 1]) }}
+          />
+          <motion.circle
+            cx="335"
+            cy="307"
+            r="2"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.59, 0.68], [0, 0.6]) }}
+          />
 
-{/* lapisan tengah — lebih kecil, agak offset */}
-<motion.path
-  d="M 308 292 C 316 280, 334 279, 344 288 C 356 280, 368 288, 364 300 C 372 308, 366 322, 354 324 C 350 334, 334 338, 322 330 C 308 332, 300 318, 308 292 Z"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="0.7"
-  strokeLinecap="round"
-  strokeLinejoin="round"
-  strokeDasharray="3 3"
-  style={{ opacity: useTransform(smooth, [0.51, 0.62], [0, 0.6]) }}
-/>
+          {/* bintang 4-point di inti */}
+          <motion.path
+            d="M 335 300 L 337 295 L 339 300 L 337 305 Z M 332 300 L 337 298 L 342 300 L 337 302 Z"
+            fill="#1a1a1a"
+            style={{ opacity: useTransform(smooth, [0.6, 0.68], [0, 1]) }}
+          />
 
-{/* inti nebula — oval kecil di tengah */}
-<motion.path
-  d="M 322 298 C 328 291, 342 291, 348 298 C 354 305, 350 316, 342 319 C 334 322, 322 318, 318 310 C 314 304, 317 298, 322 298 Z"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="0.5"
-  strokeLinecap="round"
-  style={{ opacity: useTransform(smooth, [0.54, 0.64], [0, 0.4]) }}
-/>
-
-{/* bintang di dalam & sekitar nebula */}
-<motion.circle cx="318" cy="289" r="1.5" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.53, 0.62], [0, 1]) }}
-/>
-<motion.circle cx="350" cy="283" r="1" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.54, 0.63], [0, 1]) }}
-/>
-<motion.circle cx="366" cy="302" r="1.3" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.55, 0.64], [0, 1]) }}
-/>
-<motion.circle cx="355" cy="326" r="0.9" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.56, 0.65], [0, 1]) }}
-/>
-<motion.circle cx="320" cy="330" r="1.1" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.57, 0.66], [0, 1]) }}
-/>
-<motion.circle cx="300" cy="312" r="1.4" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.58, 0.67], [0, 1]) }}
-/>
-<motion.circle cx="335" cy="307" r="2" fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.59, 0.68], [0, 0.6]) }}
-/>
-
-{/* bintang 4-point di inti */}
-<motion.path
-  d="M 335 300 L 337 295 L 339 300 L 337 305 Z M 332 300 L 337 298 L 342 300 L 337 302 Z"
-  fill="#1a1a1a"
-  style={{ opacity: useTransform(smooth, [0.6, 0.68], [0, 1]) }}
-/>
-
-{/* wisps / ekor gas keluar */}
-<motion.path
-  d="M 374 290 C 382 284, 390 280, 396 274"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="0.8"
-  strokeLinecap="round"
-  strokeDasharray="2 4"
-  style={{ opacity: useTransform(smooth, [0.55, 0.65], [0, 0.45]) }}
-/>
-<motion.path
-  d="M 296 320 C 286 326, 278 328, 272 334"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="0.8"
-  strokeLinecap="round"
-  strokeDasharray="2 4"
-  style={{ opacity: useTransform(smooth, [0.56, 0.66], [0, 0.45]) }}
-/>
-<motion.path
-  d="M 330 344 C 326 354, 322 360, 318 368"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="0.7"
-  strokeLinecap="round"
-  strokeDasharray="2 4"
-  style={{ opacity: useTransform(smooth, [0.57, 0.67], [0, 0.4]) }}
-/>
+          {/* wisps / ekor gas keluar */}
+          <motion.path
+            d="M 374 290 C 382 284, 390 280, 396 274"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="0.8"
+            strokeLinecap="round"
+            strokeDasharray="2 4"
+            style={{ opacity: useTransform(smooth, [0.55, 0.65], [0, 0.45]) }}
+          />
+          <motion.path
+            d="M 296 320 C 286 326, 278 328, 272 334"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="0.8"
+            strokeLinecap="round"
+            strokeDasharray="2 4"
+            style={{ opacity: useTransform(smooth, [0.56, 0.66], [0, 0.45]) }}
+          />
+          <motion.path
+            d="M 330 344 C 326 354, 322 360, 318 368"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="0.7"
+            strokeLinecap="round"
+            strokeDasharray="2 4"
+            style={{ opacity: useTransform(smooth, [0.57, 0.67], [0, 0.4]) }}
+          />
 
           {/* Star doodle 1 */}
           <motion.g
@@ -353,15 +387,16 @@ export default function ScrollPortfolio() {
           />
 
           {/* Arrow pointing to button */}
-     <motion.path
-  d="M 835 880 C 820 895, 795 890, 690 870"
-  fill="none"
-  stroke="#1a1a1a"
-  strokeWidth="2"
-  markerEnd="url(#arrow)"
-  style={{ pathLength: useTransform(smooth, [0.85, 0.95], [0, 1]) } as any}
-/>
-         
+          <motion.path
+            d="M 835 880 C 820 895, 795 890, 690 870"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="2"
+            markerEnd="url(#arrow)"
+            style={
+              { pathLength: useTransform(smooth, [0.85, 0.95], [0, 1]) } as any
+            }
+          />
 
           {/* Saturn doodle */}
           <defs>
