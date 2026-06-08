@@ -2,52 +2,83 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { Skiper67 } from "../VideoPlayer";
+import Image from "next/image";
+import { Loader } from "lucide-react";
 
-const projects = [
+interface Project {
+  num: string;
+  year: string;
+  title: string;
+  sub: string;
+  tags: string[];
+  desc: string;
+  stats: { val: string; key: string }[];
+  demo: string;
+  gitLab: string;
+  dark: boolean;
+  thumbnail?: string;
+  video?: string;
+}
+
+const projects: Project[] = [
   {
     num: "01",
-    year: "2025",
-    title: "StudyFirst",
+    year: "2026",
+    title: "Mantappu Academy",
     sub: "E-Learning Platform",
-    tags: ["Next.js", "Golang", "Redis", "Midtrans"],
-    desc: "Platform e-learning dengan fitur live class, payment integration Midtrans, dan admin dashboard lengkap untuk manajemen konten & user.",
-    stats: [{ val: "3+", key: "Months" }, { val: "5k+", key: "Users" }, { val: "12", key: "Features" }],
-    demo: "#", github: "#", dark: true,
+    tags: ["Next.js", "Node.js", "Axios","Express.js", "Midtrans", "Rechart.js", "Shadcn/ui", "TypeScript", "Tailwind", "Docker", "Winston", "Passport.js", "JWT", "Multer", "Cloudinary", "Resend", "Zod", "Prisma", "Bcrypt", "Cors", "Helmet", "Rate Limit", "Morgan"],
+    desc: "Platform e-learning dengan fitur video course, quiz, testimoni, payment integration Midtrans ( Core Api ), dan admin & instructor dashboard lengkap untuk manajemen konten & user serta data analytics menggunakan Rechart.js + Shadcn/ui.",
+    stats: [{ val: "20+", key: "Courses" }, { val: "100+", key: "Students" }, { val: "4.5/5", key: "Rating" }],
+    demo: "https://mantappuacademy.vercel.app/", gitLab: "#", dark: true, thumbnail: "/thumbnails/mantappu-academy.png",
+    video: "/videos/mantappu_academy.mp4",
   },
   {
     num: "02",
     year: "2024",
-    title: "FlowByte",
-    sub: "Analytics Dashboard",
-    tags: ["React", "TypeScript", "D3.js", "Tailwind"],
-    desc: "Analytics dashboard real-time dengan chart interaktif D3.js, dark mode, role-based access control, dan export laporan PDF otomatis.",
-    stats: [{ val: "2+", key: "Months" }, { val: "8", key: "Charts" }, { val: "3", key: "Roles" }],
-    demo: "#", github: "#", dark: false,
+    title: "Sneakersco",
+    sub: "Ecommerce Platform",
+    tags: ["React", "TypeScript", "Axios", "Rechart.js", "Shadcn/ui", "Tailwind", "Node.js", "Express.js", "Docker", "JWT", "Multer", "Zod", "Prisma", "Bcrypt", "Cors", "Helmet", "Rate Limit"],
+    desc: "Platform ecommerce untuk jualan sneakers dengan fitur katalog produk, shopping cart, checkout, dan dashboard analytics interaktif menggunakan Rechart.js dan Shadcn/ui untuk visualisasi data penjualan.",
+    stats: [{ val: "4", key: "Products" }, { val: "0", key: "Users" }, { val: "0/5", key: "Rating" }],
+    demo: "#", gitLab: "#", dark: false, thumbnail: "/thumbnails/hero-sneakersco.png",
+    video: "/videos/sneakersco.mp4",
   },
   {
     num: "03",
     year: "2024",
-    title: "DevChat",
-    sub: "Realtime Chat App",
-    tags: ["Golang", "WebSocket", "Redis", "Docker"],
-    desc: "Aplikasi chat realtime berbasis WebSocket dengan room, typing indicator, read receipt, dan message history persistent di Redis.",
-    stats: [{ val: "<50ms", key: "Latency" }, { val: "100+", key: "Concurrent" }, { val: "∞", key: "Rooms" }],
-    demo: "#", github: "#", dark: true,
+    title: "Weabonim",
+    sub: "Realtime Information of Anime",
+    tags: ["React", "Tailwind", "Jikan Api", "Axios"],
+    desc: "Platform informasi anime real-time dengan data terbaru dari Jikan API dengan fitur search, dan detail anime.",
+    stats: [{ val: "1000+", key: "Anime" }, { val: "500k+", key: "Users" }, { val: "4.5/5", key: "Rating" }],
+    demo: "#", gitLab: "#", dark: true, thumbnail: "/thumbnails/weabonim.png",
   },
   {
     num: "04",
     year: "2023",
-    title: "IT Tracker",
-    sub: "Gov Internal Tool",
+    title: "Ycreatives",
+    sub: "Landing Page (heavy animation)",
     tags: ["Express", "MySQL", "Docker", "GSAP"],
-    desc: "Sistem manajemen aset IT pemerintahan dengan QR code scan, laporan bulanan otomatis, dan multi-cabang. Digunakan aktif oleh Diskominfo Lebak.",
-    stats: [{ val: "200+", key: "Assets" }, { val: "5", key: "Branches" }, { val: "Active", key: "Status" }],
-    demo: "#", github: "#", dark: false,
+    desc: "Landing Page untuk digital agency dengan animasi kompleks menggunakan GSAP untuk interaksi yang menarik dan interaktif.",
+    stats: [{ val: "1", key: "Page" }, { val: "30+", key: "Customers" }, { val: "4.8/5", key: "Rating" }],
+    demo: "#", gitLab: "#", dark: false, thumbnail: "/thumbnails/ycreatives.png",
+    video: "/videos/ycreatives.mp4"
   },
 ];
 
-// ── Space ornaments (SVG sketchy, tone section 2) ──────────────────
-function SpaceOrnaments() {
+// ── Orbit perimeter helper ─────────────────────────────────────────
+function ellipsePerim(rx: number, ry: number) {
+  return 2 * Math.PI * Math.sqrt((rx * rx + ry * ry) / 2);
+}
+
+// ── Space ornaments — STYLE IDENTIK, orbit pakai dashoffset scroll ─
+function SpaceOrnaments({ orbitOffset }: { orbitOffset: number }) {
+  // perimeter orbit besar
+  const P = ellipsePerim(390, 115);
+  const dashLen = P * 0.18; // panjang "ekor" yang keliatan
+  const gapLen  = P - dashLen;
+
   return (
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
@@ -88,48 +119,26 @@ function SpaceOrnaments() {
         <circle cx="46" cy="240" r="13" fill="#f0ede6" stroke="#1a1a1a" strokeWidth="1.2"/>
         <line x1="30" y1="240" x2="62" y2="240" stroke="#1a1a1a" strokeWidth="1" opacity=".35"/>
       </g>
-      {/* rocket */}
+      {/* satellite */}
       <g id="g-satellite" transform="rotate(-25, 195, 135)">
-  {/* body */}
-  <rect x="188" y="126" width="20" height="14" rx="2"
-    fill="#f5f4f0" stroke="#1a1a1a" strokeWidth="1.5" strokeLinejoin="round"/>
-
-  {/* solar panel kiri */}
-  <rect x="160" y="128" width="24" height="10" rx="1.5"
-    fill="#cce0ff" stroke="#1a1a1a" strokeWidth="1.2"/>
-  {/* grid lines panel kiri */}
-  <line x1="168" y1="128" x2="168" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-  <line x1="176" y1="128" x2="176" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-  {/* arm kiri */}
-  <line x1="184" y1="133" x2="188" y2="133" stroke="#1a1a1a" strokeWidth="1.2"/>
-
-  {/* solar panel kanan */}
-  <rect x="212" y="128" width="24" height="10" rx="1.5"
-    fill="#cce0ff" stroke="#1a1a1a" strokeWidth="1.2"/>
-  {/* grid lines panel kanan */}
-  <line x1="220" y1="128" x2="220" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-  <line x1="228" y1="128" x2="228" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-  {/* arm kanan */}
-  <line x1="208" y1="133" x2="212" y2="133" stroke="#1a1a1a" strokeWidth="1.2"/>
-
-  {/* antenna atas */}
-  <line x1="198" y1="126" x2="198" y2="116" stroke="#1a1a1a" strokeWidth="1" strokeLinecap="round"/>
-  <circle cx="198" cy="114" r="2.5" fill="none" stroke="#1a1a1a" strokeWidth="1"/>
-
-  {/* antenna samping */}
-  <line x1="208" y1="128" x2="214" y2="120" stroke="#1a1a1a" strokeWidth=".8" strokeLinecap="round"/>
-  <circle cx="215" cy="119" r="1.5" fill="#1a1a1a" opacity=".4"/>
-
-  {/* window kecil di body */}
-  <circle cx="198" cy="133" r="3.5" fill="#2a6dd9" stroke="#1a1a1a" strokeWidth="1"/>
-  <circle cx="198" cy="133" r="2"   fill="#cce0ff"/>
-
-  {/* sinyal / transmisi — arc putus */}
-  <path d="M 202 118 C 207 113, 213 113, 216 118"
-    fill="none" stroke="#1a1a1a" strokeWidth=".8" strokeLinecap="round" strokeDasharray="2 2" opacity=".5"/>
-  <path d="M 204 115 C 210 108, 218 108, 222 115"
-    fill="none" stroke="#1a1a1a" strokeWidth=".6" strokeLinecap="round" strokeDasharray="2 2" opacity=".3"/>
-</g>
+        <rect x="188" y="126" width="20" height="14" rx="2" fill="#f5f4f0" stroke="#1a1a1a" strokeWidth="1.5" strokeLinejoin="round"/>
+        <rect x="160" y="128" width="24" height="10" rx="1.5" fill="#cce0ff" stroke="#1a1a1a" strokeWidth="1.2"/>
+        <line x1="168" y1="128" x2="168" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
+        <line x1="176" y1="128" x2="176" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
+        <line x1="184" y1="133" x2="188" y2="133" stroke="#1a1a1a" strokeWidth="1.2"/>
+        <rect x="212" y="128" width="24" height="10" rx="1.5" fill="#cce0ff" stroke="#1a1a1a" strokeWidth="1.2"/>
+        <line x1="220" y1="128" x2="220" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
+        <line x1="228" y1="128" x2="228" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
+        <line x1="208" y1="133" x2="212" y2="133" stroke="#1a1a1a" strokeWidth="1.2"/>
+        <line x1="198" y1="126" x2="198" y2="116" stroke="#1a1a1a" strokeWidth="1" strokeLinecap="round"/>
+        <circle cx="198" cy="114" r="2.5" fill="none" stroke="#1a1a1a" strokeWidth="1"/>
+        <line x1="208" y1="128" x2="214" y2="120" stroke="#1a1a1a" strokeWidth=".8" strokeLinecap="round"/>
+        <circle cx="215" cy="119" r="1.5" fill="#1a1a1a" opacity=".4"/>
+        <circle cx="198" cy="133" r="3.5" fill="#2a6dd9" stroke="#1a1a1a" strokeWidth="1"/>
+        <circle cx="198" cy="133" r="2"   fill="#cce0ff"/>
+        <path d="M 202 118 C 207 113, 213 113, 216 118" fill="none" stroke="#1a1a1a" strokeWidth=".8" strokeLinecap="round" strokeDasharray="2 2" opacity=".5"/>
+        <path d="M 204 115 C 210 108, 218 108, 222 115" fill="none" stroke="#1a1a1a" strokeWidth=".6" strokeLinecap="round" strokeDasharray="2 2" opacity=".3"/>
+      </g>
       {/* asteroid top mid */}
       <g id="g-ast1">
         <path d="M 420 60 C 428 53,440 55,446 63 C 452 71,448 83,438 87 C 428 91,416 85,414 75 C 412 67,415 63,420 60 Z" fill="#e0dcd4" stroke="#1a1a1a" strokeWidth="1.3" strokeLinejoin="round"/>
@@ -142,22 +151,32 @@ function SpaceOrnaments() {
         <circle cx="531" cy="495" r="2.2" fill="#1a1a1a" opacity=".16"/>
       </g>
       {/* nebula */}
-    <g id="g-nebula">
-  <path d="M 395 435 C 407 423,427 421,439 431 C 453 421,469 427,465 441 C 477 449,473 465,459 468 C 453 479,437 483,427 473 C 413 481,397 475,395 463 C 381 457,379 443,395 435 Z" fill="none" stroke="#1a1a1a" strokeWidth="1" opacity=".45"/>
-  <path d="M 407 439 C 415 431,429 431,437 439 C 447 433,457 441,453 451 C 459 457,455 467,445 468 C 441 475,429 478,421 471 C 411 475,401 469,401 459 C 393 453,393 443,407 439 Z" fill="none" stroke="#1a1a1a" strokeWidth=".6" strokeDasharray="3 3" opacity=".3"/>
-  <circle cx="418" cy="445" r="1.1" fill="#1a1a1a" opacity=".45"/>
-  <circle cx="436" cy="441" r=".9"  fill="#1a1a1a" opacity=".38"/>
-  <circle cx="448" cy="453" r="1"   fill="#1a1a1a" opacity=".4"/>
-  <circle cx="428" cy="463" r=".8"  fill="#1a1a1a" opacity=".35"/>
-  <path d="M 465 443 C 473 438,479 435,485 431" fill="none" stroke="#1a1a1a" strokeWidth=".7" strokeLinecap="round" strokeDasharray="2 3" opacity=".28"/>
-</g>
-      {/* orbit deco */}
-      <ellipse cx="450" cy="310" rx="390" ry="115" fill="none" stroke="#1a1a1a" strokeWidth="1" strokeDasharray="6 8" opacity="1.1"/>
+      <g id="g-nebula">
+        <path d="M 395 435 C 407 423,427 421,439 431 C 453 421,469 427,465 441 C 477 449,473 465,459 468 C 453 479,437 483,427 473 C 413 481,397 475,395 463 C 381 457,379 443,395 435 Z" fill="none" stroke="#1a1a1a" strokeWidth="1" opacity=".45"/>
+        <path d="M 407 439 C 415 431,429 431,437 439 C 447 433,457 441,453 451 C 459 457,455 467,445 468 C 441 475,429 478,421 471 C 411 475,401 469,401 459 C 393 453,393 443,407 439 Z" fill="none" stroke="#1a1a1a" strokeWidth=".6" strokeDasharray="3 3" opacity=".3"/>
+        <circle cx="418" cy="445" r="1.1" fill="#1a1a1a" opacity=".45"/>
+        <circle cx="436" cy="441" r=".9"  fill="#1a1a1a" opacity=".38"/>
+        <circle cx="448" cy="453" r="1"   fill="#1a1a1a" opacity=".4"/>
+        <circle cx="428" cy="463" r=".8"  fill="#1a1a1a" opacity=".35"/>
+        <path d="M 465 443 C 473 438,479 435,485 431" fill="none" stroke="#1a1a1a" strokeWidth=".7" strokeLinecap="round" strokeDasharray="2 3" opacity=".28"/>
+      </g>
+
+      {/* ── orbit deco — style sama, sekarang dashoffset jalan saat scroll ── */}
+      <ellipse
+        cx="450" cy="310"
+        rx="390" ry="115"
+        fill="none"
+        stroke="#1a1a1a"
+        strokeWidth="1"
+        strokeDasharray={`6 8`} // total dash+gap = perimeter, minus 14 supaya ada jarak kosong di titik awal
+        strokeDashoffset={-orbitOffset}
+        opacity="1"
+      />
     </svg>
   );
 }
 
-// ── Floating ornament wrapper (idle float) ─────────────────────────
+// ── Floating ornament wrapper (idle float) — IDENTIK ───────────────
 const floatConfigs: Record<string, { amp: number; speed: number; phase: number }> = {
   "g-planet1": { amp: 3.5, speed: 0.7,  phase: 0   },
   "g-planet2": { amp: 2.5, speed: 0.55, phase: 1.2 },
@@ -186,7 +205,7 @@ function useIdleFloat(id: string) {
   return pos;
 }
 
-// ── Project card (left) ────────────────────────────────────────────
+// ── Project card — IDENTIK ─────────────────────────────────────────
 function ProjectCard({ project, direction }: { project: typeof projects[0]; direction: number }) {
   return (
     <motion.div
@@ -203,7 +222,9 @@ function ProjectCard({ project, direction }: { project: typeof projects[0]; dire
         minHeight: 260,
       }}
     >
-      <span className="text-5xl font-black opacity-[0.07] leading-none">{project.num}</span>
+     {project.thumbnail && (
+        <Image src={project.thumbnail} alt="" className="text-5xl font-black opacity-[1.5] rounded-lg leading-none" width={369} height={369} priority loading="eager"/>
+      )}
       <span
         className="text-[8px] font-bold px-2 py-0.5 rounded self-start"
         style={{ background: project.dark ? "#2a2a2a" : "#f5c842", color: project.dark ? "#f0ede6" : "#1a1a1a" }}
@@ -223,7 +244,7 @@ function ProjectCard({ project, direction }: { project: typeof projects[0]; dire
   );
 }
 
-// ── Project detail (right) ─────────────────────────────────────────
+// ── Project detail — IDENTIK ───────────────────────────────────────
 function ProjectDetail({ project, direction }: { project: typeof projects[0]; direction: number }) {
   return (
     <motion.div
@@ -234,7 +255,7 @@ function ProjectDetail({ project, direction }: { project: typeof projects[0]; di
       transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1], delay: 0.08 }}
       className="flex flex-col gap-5"
     >
-      <div>
+      <div className="mt-20">
         <div className="text-[8px] tracking-[.15em] opacity-40 uppercase mb-1 text-[#1a1a1a]">About</div>
         <p className="text-[13px] leading-relaxed opacity-75 text-[#1a1a1a]">{project.desc}</p>
       </div>
@@ -246,6 +267,9 @@ function ProjectDetail({ project, direction }: { project: typeof projects[0]; di
           </div>
         ))}
       </div>
+         {/* video player */}
+        {project.video && <Skiper67 videoPath={project.video} key={project.num} />}
+     
       <div className="flex gap-3">
         <a
           href={project.demo}
@@ -255,11 +279,11 @@ function ProjectDetail({ project, direction }: { project: typeof projects[0]; di
           Live Demo →
         </a>
         <a
-          href={project.github}
+          href={project.gitLab}
           className="text-[10px] font-bold tracking-wide px-4 py-2 rounded-full border-2 border-[#1a1a1a] transition-colors hover:bg-[#1a1a1a] hover:text-[#f0ede6]"
           style={{ color: "#1a1a1a" }}
         >
-          GitHub
+          GitLab
         </a>
       </div>
     </motion.div>
@@ -268,27 +292,47 @@ function ProjectDetail({ project, direction }: { project: typeof projects[0]; di
 
 // ── Main Section ───────────────────────────────────────────────────
 export default function ProjectsSection() {
-  const [cur, setCur] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [cur, setCur]             = useState(0);
   const [direction, setDirection] = useState(1);
+  const [orbitOffset, setOrbitOffset] = useState(0);
 
-  const goTo = (idx: number) => {
-    setDirection(idx > cur ? 1 : -1);
-    setCur(idx);
-  };
-  const prev = () => cur > 0 && goTo(cur - 1);
-  const next = () => cur < projects.length - 1 && goTo(cur + 1);
+  // scroll setup — container tinggi = jumlah project × 100vh
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const smooth = useSpring(scrollYProgress, { stiffness: 50, damping: 18 });
 
-  // keyboard nav
+  // orbit: dashoffset jalan seiring scroll
+  // perimeter ellipse ≈ 2π√((390²+115²)/2) ≈ 1610px
+  const P = ellipsePerim(390, 115);
+  useEffect(() => {
+    return smooth.on("change", (v) => {
+      // offset bergerak 0 → P (satu keliling penuh) selama full scroll
+      setOrbitOffset(v * P * 0.05); // dikali 0.1 supaya gak terlalu cepat
+
+      // ganti project berdasarkan progress
+      const idx = Math.min(projects.length - 1, Math.floor(v * projects.length));
+      setCur(prev => {
+        if (idx !== prev) setDirection(idx > prev ? 1 : -1);
+        return idx;
+      });
+    });
+  }, [smooth, P]);
+
+  // keyboard fallback — TETAP ADA seperti aslinya
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") {
+        setCur(c => { const n = Math.min(projects.length - 1, c + 1); setDirection(1); return n; });
+      }
+      if (e.key === "ArrowLeft") {
+        setCur(c => { const n = Math.max(0, c - 1); setDirection(-1); return n; });
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [cur]);
+  }, []);
 
-  // idle float per ornament
+  // idle float — IDENTIK
   const planet1 = useIdleFloat("g-planet1");
   const planet2 = useIdleFloat("g-planet2");
   const planet3 = useIdleFloat("g-planet3");
@@ -302,82 +346,73 @@ export default function ProjectsSection() {
   });
 
   return (
-    <section
-      className="relative w-full overflow-hidden h-full"
-      style={{ background: "#f0ede6", minHeight: "100vh" }}
-    >
-      {/* heading */}
-      <div className="absolute top-6 left-9 z-10 pointer-events-none">
-        <h2 className="text-2xl font-black tracking-tight text-[#1a1a1a]">
-          PROJECTS<span style={{ color: "#f5c842" }}>.</span>
-        </h2>
-        <p className="text-[9px] tracking-[.15em] opacity-35 mt-0.5 text-[#1a1a1a]">SELECTED WORK</p>
-      </div>
+    // ── wrapper tinggi untuk scroll ──────────────────────────────────
+    <div ref={containerRef} style={{ height: `${projects.length * 100}vh` }}>
+      <div
+        className="sticky top-0 relative w-full overflow-hidden"
+        style={{ background: "#f0ede6", height: "100vh" }}
+      >
+        {/* heading — IDENTIK */}
+        <div className="absolute top-6 left-9 z-10 pointer-events-none">
+          <h2 className="text-2xl font-black tracking-tight text-[#1a1a1a]">
+            PROJECTS<span style={{ color: "#f5c842" }}>.</span>
+          </h2>
+          <p className="text-[9px] tracking-[.15em] opacity-35 mt-0.5 text-[#1a1a1a]">SELECTED WORK</p>
+        </div>
 
-      {/* progress dots */}
-      <div className="absolute top-8 right-9 z-10 flex gap-2">
-        {projects.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            className="w-2 h-2 rounded-full border-[1.5px] border-[#1a1a1a] transition-colors text-[#1a1a1a] flex items-center justify-center"
-            style={{ background: i === cur ? "#1a1a1a" : "transparent" }}
-          />
-        ))}
-      </div>
+        {/* progress dots — IDENTIK style, scroll-driven state */}
+        <div className="absolute top-8 right-9 z-10 flex gap-2">
+          {projects.map((_, i) => (
+            <div
+              key={i}
+              className="w-2 h-2 rounded-full border-[1.5px] border-[#1a1a1a] transition-colors"
+              style={{ background: i === cur ? "#1a1a1a" : "transparent" }}
+            />
+          ))}
+        </div>
 
-      {/* space ornaments layer */}
-      <div className="absolute inset-0 pointer-events-none z-[1]">
-        {/* apply idle float per group via wrapper divs overlaid on SVG */}
-        <SpaceOrnaments />
-        {/* float overlays — positioned to match SVG group centers */}
-        {[
-          { id: "planet1", pos: planet1, style: { position: "absolute" as const, top: 70,  right: 60,  width: 70, height: 30 } },
-          { id: "planet2", pos: planet2, style: { position: "absolute" as const, bottom: 60, left: 40, width: 80, height: 60 } },
-          { id: "planet3", pos: planet3, style: { position: "absolute" as const, top: 200, left: 20,  width: 40, height: 40 } },
-          { id: "rocket",  pos: rocket,  style: { position: "absolute" as const, top: 60,  left: 140, width: 60, height: 80 } },
-          { id: "ast1",    pos: ast1,    style: { position: "absolute" as const, top: 10,  left: "45%", width: 50, height: 45 } },
-          { id: "ast2",    pos: ast2,    style: { position: "absolute" as const, bottom: 50, right: 50, width: 60, height: 50 } },
-          { id: "nebula",  pos: nebula,  style: { position: "absolute" as const, bottom: 30, left: "42%", width: 120, height: 70 } },
-        ].map(({ id, pos, style }) => (
-          <div key={id} style={{ ...style, ...floatStyle(pos), transition: "transform 0.05s linear" }} />
-        ))}
-      </div>
+        {/* space ornaments layer — IDENTIK */}
+        <div className="absolute inset-0 pointer-events-none z-[1]">
+          <SpaceOrnaments orbitOffset={orbitOffset} />
+          {[
+            { id: "planet1", pos: planet1, style: { position: "absolute" as const, top: 70,  right: 60,  width: 70,  height: 30 } },
+            { id: "planet2", pos: planet2, style: { position: "absolute" as const, bottom: 60, left: 40,  width: 80,  height: 60 } },
+            { id: "planet3", pos: planet3, style: { position: "absolute" as const, top: 200, left: 20,   width: 40,  height: 40 } },
+            { id: "rocket",  pos: rocket,  style: { position: "absolute" as const, top: 60,  left: 140,  width: 60,  height: 80 } },
+            { id: "ast1",    pos: ast1,    style: { position: "absolute" as const, top: 10,  left: "45%", width: 50, height: 45 } },
+            { id: "ast2",    pos: ast2,    style: { position: "absolute" as const, bottom: 50, right: 50, width: 60, height: 50 } },
+            { id: "nebula",  pos: nebula,  style: { position: "absolute" as const, bottom: 30, left: "42%", width: 120, height: 70 } },
+          ].map(({ id, pos, style }) => (
+            <div key={id} style={{ ...style, ...floatStyle(pos), transition: "transform 0.05s linear" }} />
+          ))}
+        </div>
 
-      {/* main content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-9 gap-8">
-        <AnimatePresence mode="wait" custom={direction}>
-          <ProjectCard key={`card-${cur}`} project={projects[cur]} direction={direction} />
-        </AnimatePresence>
-        <div className="flex-1 max-w-md">
+        {/* main content — IDENTIK */}
+        <div className="relative z-10 flex items-center justify-center min-h-screen px-9 gap-8">
           <AnimatePresence mode="wait" custom={direction}>
-            <ProjectDetail key={`detail-${cur}`} project={projects[cur]} direction={direction} />
+            <ProjectCard key={`card-${cur}`} project={projects[cur]} direction={direction} />
           </AnimatePresence>
+          <div className="flex-1 max-w-md">
+            <AnimatePresence mode="wait" custom={direction}>
+              <ProjectDetail key={`detail-${cur}`} project={projects[cur]} direction={direction} />
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* nav buttons — IDENTIK style, sekarang jadi scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4">
+          <span className="text-[10px] tracking-widest opacity-50 min-w-[52px] text-center text-[#1a1a1a]">
+            0{cur + 1} / 0{projects.length}
+          </span>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.3, ease: "easeInOut" }}
+            className="text-[#1a1a1a] opacity-30 text-xs"
+          >
+            ↓ scroll
+          </motion.div>
         </div>
       </div>
-
-      {/* nav */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4">
-        <button
-          onClick={prev}
-          disabled={cur === 0}
-          className="w-9 h-9 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] flex items-center justify-center transition-colors hover:bg-[#1a1a1a] hover:text-[#f0ede6] disabled:opacity-20 disabled:cursor-not-allowed"
-          style={{ background: "#f0ede6" }}
-        >
-          ←
-        </button>
-        <span className="text-[10px] tracking-widest opacity-50 min-w-[52px] text-center text-[#1a1a1a]">
-          0{cur + 1} / 0{projects.length}
-        </span>
-        <button
-          onClick={next}
-          disabled={cur === projects.length - 1}
-          className="w-9 h-9 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] flex items-center justify-center transition-colors hover:bg-[#1a1a1a] hover:text-[#f0ede6] disabled:opacity-20 disabled:cursor-not-allowed"
-          style={{ background: "#f0ede6" }}
-        >
-          →
-        </button>
-      </div>
-    </section>
+    </div>
   );
 }
