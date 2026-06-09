@@ -1,10 +1,9 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { Skiper67 } from "../VideoPlayer";
 import Image from "next/image";
-import { Loader } from "lucide-react";
 
 interface Project {
   num: string;
@@ -74,11 +73,6 @@ function ellipsePerim(rx: number, ry: number) {
 
 // ── Space ornaments — STYLE IDENTIK, orbit pakai dashoffset scroll ─
 function SpaceOrnaments({ orbitOffset }: { orbitOffset: number }) {
-  // perimeter orbit besar
-  const P = ellipsePerim(390, 115);
-  const dashLen = P * 0.18; // panjang "ekor" yang keliatan
-  const gapLen  = P - dashLen;
-
   return (
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
@@ -168,7 +162,7 @@ function SpaceOrnaments({ orbitOffset }: { orbitOffset: number }) {
         fill="none"
         stroke="#1a1a1a"
         strokeWidth="1"
-        strokeDasharray={`6 8`} // total dash+gap = perimeter, minus 14 supaya ada jarak kosong di titik awal
+        strokeDasharray={`6 8`}
         strokeDashoffset={-orbitOffset}
         opacity="1"
       />
@@ -214,7 +208,7 @@ function ProjectCard({ project, direction }: { project: typeof projects[0]; dire
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -direction * 60 }}
       transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
-      className="flex-shrink-0 w-72 rounded-2xl p-5 flex flex-col gap-3 border-2 border-[#1a1a1a]"
+      className="shrink-0 w-72 rounded-2xl p-5 flex flex-col gap-3 border-2 border-[#1a1a1a]"
       style={{
         background: project.dark ? "#1a1a1a" : "#fff8e8",
         color: project.dark ? "#f0ede6" : "#1a1a1a",
@@ -372,7 +366,7 @@ export default function ProjectsSection() {
         </div>
 
         {/* space ornaments layer — IDENTIK */}
-        <div className="absolute inset-0 pointer-events-none z-[1]">
+        <div className="absolute inset-0 pointer-events-none z-1">
           <SpaceOrnaments orbitOffset={orbitOffset} />
           {[
             { id: "planet1", pos: planet1, style: { position: "absolute" as const, top: 70,  right: 60,  width: 70,  height: 30 } },
@@ -401,7 +395,7 @@ export default function ProjectsSection() {
 
         {/* nav buttons — IDENTIK style, sekarang jadi scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4">
-          <span className="text-[10px] tracking-widest opacity-50 min-w-[52px] text-center text-[#1a1a1a]">
+          <span className="text-[10px] tracking-widest opacity-50 min-w-13 text-center text-[#1a1a1a]">
             0{cur + 1} / 0{projects.length}
           </span>
           <motion.div

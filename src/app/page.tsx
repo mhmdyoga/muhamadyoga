@@ -1,3 +1,4 @@
+import ExperienceSection from "@/components/fragments/Experience";
 import ProjectsSection from "@/components/fragments/Project";
 import ScrollPortfolio from "@/components/fragments/ScrollPortfolio";
 import WordsPreloaderDemo from "@/components/fragments/WordsPreloader";
@@ -9,6 +10,7 @@ export default function Home() {
       <WordsPreloaderDemo/>
         <ScrollPortfolio/>
         <ProjectsSection/>
+        <ExperienceSection/>
     </>
   );
 }
