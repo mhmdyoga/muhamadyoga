@@ -265,7 +265,7 @@ export default function WordsPreloaderDemo() {
           >
             {`I'M MUHAMAD YOGA a`}{" "}
             <RotatingText
-              texts={["SOFTWARE DEVELOPER", "CRAZY PROMPTER"]}
+              texts={["SOFTWARE DEVELOPER", "CRAZY BUILDER"]}
               mainClassName="px-2 sm:px-2 md:px-3 bg-transparent text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
               staggerFrom="last"
               initial={{ y: "100%" }}
