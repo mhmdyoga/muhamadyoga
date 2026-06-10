@@ -2,18 +2,21 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import {  motion } from "framer-motion"
+import { useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
-import axios from "axios";
-import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { Send, XIcon } from "lucide-react";
+import { toast } from "sonner";
+import axios from "axios"
 
 // ─── Photo (base64 embedded) ──────────────────────────────────────────────────
 const PHOTO_SRC =
@@ -24,27 +27,25 @@ export default function ScrollPortfolio() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
 
-  // handleSubmit email;
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const payload = {
-      name: (e.target as any).name.value,
-      email: (e.target as any).email.value,
-      message: (e.target as any).message.value,
-    }
+  // (email submit handled elsewhere) Remove unused handleSubmit to avoid lint warnings
+  const handleSubmit = async(e: any) => {
+      e.preventDefault()
 
-    try {
-      const res = await axios.post("/api/send", payload);
-
-      if(res.status === 200) {
-        toast.success('Email Success Delivered');
-        (e.target as any).reset();
+      const payload = {
+        name: (e as any).value.target,
+        email: (e as any).value.target,
+        message: (e as any).value.target,
       }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      toast.error(error as string)
-    }
+
+      try {
+        const res = await axios.post("/api/send", payload);
+        if (res.status === 200) {
+          toast.success('your email has been delivered')
+        }
+      } catch (error) {
+        console.log('Log Error Submit Email: ', error)
+        toast.error('Failed Submitted!')
+      }
   }
 
   // smooth spring
@@ -526,12 +527,12 @@ export default function ScrollPortfolio() {
           <div className="relative">
             {/* Shadow offset (cartoon style) */}
             <div
-              className="absolute inset-0 translate-x-2 translate-y-2 rounded-[4px]"
+              className="absolute inset-0 translate-x-2 translate-y-2 rounded-lg"
               style={{ background: "#1a1a1a" }}
             />
             {/* Photo */}
             <div
-              className="relative overflow-hidden rounded-[4px] border-[3px] border-[#1a1a1a]"
+              className="relative overflow-hidden rounded-lg border-[3px] border-[#1a1a1a]"
               style={{ width: "clamp(160px, 22vw, 280px)", aspectRatio: "3/4" }}
             >
               <Image
@@ -696,6 +697,7 @@ export default function ScrollPortfolio() {
             whileHover={{ scale: 1.05, rotate: -1 }}
             whileTap={{ scale: 0.97 }}
             className="group relative cursor-pointer"
+            onClick={() => setIsOpen(true)}
           >
             {/* shadow */}
             <span className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-full bg-[#1a1a1a]" />
@@ -707,9 +709,7 @@ export default function ScrollPortfolio() {
                 letterSpacing: "0.12em",
               }}
             >
-              
-              <Dialog>
-        <DialogTrigger className="flex items-center justify-center gap-2 ">
+
               <span>{`Let's`} Connect</span>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <path
@@ -720,17 +720,6 @@ export default function ScrollPortfolio() {
                   strokeLinejoin="round"
                 />
               </svg>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
             </span>
           </motion.button>
         </motion.div>
@@ -753,6 +742,40 @@ export default function ScrollPortfolio() {
           />
         </motion.div>
       </div>
+
+      {/* Dialog */}
+       <Dialog open={isOpen}>
+        <DialogContent aria-describedby={undefined} showCloseButton={false}>
+          <DialogHeader>
+            <div className="ml-90">
+              <Button variant={"ghost"} onClick={() => setIsOpen(false)}>
+                <XIcon/>
+              </Button>
+            </div>
+            <DialogTitle>{`Let's`} Connect!!</DialogTitle>
+          </DialogHeader>
+            
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2 justify-center">
+              <div className="flex flex-col gap-1 items-start justify-center">
+                <label className="font-extrabold text-black">Your Name</label>
+                <Input type="text" name="name" placeholder="fill your name..." required/>
+              </div>
+              <div className="flex flex-col gap-1 items-start justify-center">
+                <label className="font-extrabold text-black">Your Email</label>
+                <Input type="email" name="email" placeholder="fill your email..." required/>
+              </div>
+              <div className="flex flex-col gap-1 items-start justify-center">
+                <label className="font-extrabold text-black">Message</label>
+                <Textarea placeholder="Let's Collaborate with me..." required/>
+              </div>
+              <Button>
+                Send <Send/>
+              </Button>
+            </form>
+         
+        </DialogContent>
+      </Dialog>
     </div>
+
   );
 }
