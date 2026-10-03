@@ -250,7 +250,7 @@ export default function WordsPreloaderDemo() {
 
       {ready && (
         <motion.div
-          className="flex flex-col items-center justify-center min-h-screen bg-white h-screen w-full"
+          className="flex flex-col items-center justify-center min-h-screen bg-[#fff] h-screen w-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}

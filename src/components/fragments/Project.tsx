@@ -64,6 +64,17 @@ const projects: Project[] = [
     demo: "#", gitLab: "#", dark: false, thumbnail: "/thumbnails/ycreatives.png",
     video: "/videos/ycreatives.mp4"
   },
+  {
+    num: "05",
+    year: "2026",
+    title: "BARKASNAS",
+    sub: "Personal Portfolio Website",
+    tags: ["React", "TypeScript", "Tailwind", "Framer Motion", "Golang", "Docker", "PostgreSQL", "JWT", "Axios", "Zod", "Prisma", "Bcrypt", "Cors", "GIN", "Rate Limit", "Gothic", "Cloudinary"],
+    desc: "Barkasnas adalah portofolio pribadi mengenai platform E-commerce Barang Bekas (Preloved) dengan sistem Pembayaran COD only. Ada beberapa fitur seperti Authentication, CRUD Product, Favorited List, Messaging, dan Admin Dashboard untuk data analytics, Backend menggunakan Golang, GIN, PostgreSQL, Prisma, JWT, dan Frontend menggunakan React, TypeScript, Tailwind, Framer Motion.",
+    stats: [{ val: "5+", key: "Projects" }, { val: "10+", key: "Skills" }, { val: "4.9/5", key: "Rating" }],
+    demo: "#", gitLab: "#", dark: true, thumbnail: "/thumbnails/barkasnas.png",
+    video: "/videos/barkasnas.mp4"
+  }
 ];
 
 // ── Orbit perimeter helper ─────────────────────────────────────────
@@ -71,7 +82,38 @@ function ellipsePerim(rx: number, ry: number) {
   return 2 * Math.PI * Math.sqrt((rx * rx + ry * ry) / 2);
 }
 
-// ── Space ornaments — STYLE IDENTIK, orbit pakai dashoffset scroll ─
+// ── Stars: posisi deterministik (seeded) biar server & client sama ─
+function mulberry32(seed: number) {
+  let a = seed;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const PLANET = { x: 830, y: 100 };
+
+const STARS = (() => {
+  const rnd = mulberry32(7);
+  const out: { cx: number; cy: number; r: number; o: number; tw: boolean; d: number }[] = [];
+  while (out.length < 70) {
+    const cx = +(rnd() * 900).toFixed(1);
+    const cy = +(rnd() * 600).toFixed(1);
+    const r = +(0.7 + rnd() * 1.0).toFixed(2);
+    const o = +(0.25 + rnd() * 0.45).toFixed(2);
+    const tw = rnd() > 0.75;
+    const d = +(rnd() * 4).toFixed(1);
+    // jangan numpuk di atas planet
+    if (Math.hypot(cx - PLANET.x, cy - PLANET.y) < 50) continue;
+    out.push({ cx, cy, r, o, tw, d });
+  }
+  return out;
+})();
+
+// ── Space ornaments — bintang banyak, 1 planet, orbit scroll ───────
 function SpaceOrnaments({ orbitOffset }: { orbitOffset: number }) {
   return (
     <svg
@@ -79,124 +121,226 @@ function SpaceOrnaments({ orbitOffset }: { orbitOffset: number }) {
       viewBox="0 0 900 600"
       preserveAspectRatio="xMidYMid slice"
     >
-      {/* stars slow */}
-      <g id="g-stars-slow">
-        {[[55,90,1.4],[170,50,1],[840,80,1.5],[760,140,1.2],[90,490,1.3],[850,460,1],[430,555,1.4],[310,85,1]].map(([cx,cy,r],i)=>(
-          <circle key={i} cx={cx} cy={cy} r={r} fill="#1a1a1a"/>
+      <style>{`
+        @keyframes star-twinkle { 0%,100% { opacity: var(--o); } 50% { opacity: 0.08; } }
+        .star-twinkle { animation: star-twinkle 3.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .star-twinkle { animation: none; } }
+      `}</style>
+
+      {/* stars */}
+      <g>
+        {STARS.map((s, i) => (
+          <circle
+            key={i}
+            cx={s.cx}
+            cy={s.cy}
+            r={s.r}
+            fill="#1a1a1a"
+            opacity={s.o}
+            className={s.tw ? "star-twinkle" : undefined}
+            style={s.tw ? ({ "--o": s.o, animationDelay: `${s.d}s` } as React.CSSProperties) : undefined}
+          />
         ))}
-      </g>
-      {/* stars fast */}
-      <g id="g-stars-fast">
-        {[[130,170,1.1],[800,220,1.3],[60,340,1],[870,380,1.2],[500,540,1]].map(([cx,cy,r],i)=>(
-          <circle key={i} cx={cx} cy={cy} r={r} fill="#1a1a1a"/>
-        ))}
-      </g>
-      {/* sparkles */}
-      <g id="g-sparkle">
-        <path d="M 78 210 L 80 204 L 82 210 L 80 216 Z M 76 210 L 80 208 L 84 210 L 80 212 Z" fill="#1a1a1a"/>
-        <path d="M 810 105 L 812 99 L 814 105 L 812 111 Z M 808 105 L 812 103 L 816 105 L 812 107 Z" fill="#1a1a1a"/>
-        <path d="M 455 558 L 457 552 L 459 558 L 457 564 Z M 453 558 L 457 556 L 461 558 L 457 560 Z" fill="#1a1a1a"/>
-      </g>
-      {/* planet ringed top right */}
-      <g id="g-planet1">
-        <ellipse cx="830" cy="100" rx="30" ry="12" fill="none" stroke="#1a1a1a" strokeWidth="1.2"/>
-        <circle  cx="830" cy="100" r="20" fill="#e8e4dc" stroke="#1a1a1a" strokeWidth="1.5"/>
-        <ellipse cx="830" cy="100" rx="30" ry="12" fill="none" stroke="#1a1a1a" strokeWidth="1.2" strokeDasharray="16 12" strokeDashoffset="8"/>
-      </g>
-      {/* planet bottom left */}
-      <g id="g-planet2">
-        <circle  cx="75" cy="500" r="24" fill="#e8e4dc" stroke="#1a1a1a" strokeWidth="1.5"/>
-        <ellipse cx="75" cy="500" rx="36" ry="10" fill="none" stroke="#1a1a1a" strokeWidth="1"/>
-      </g>
-      {/* tiny planet mid left */}
-      <g id="g-planet3">
-        <circle cx="46" cy="240" r="13" fill="#f0ede6" stroke="#1a1a1a" strokeWidth="1.2"/>
-        <line x1="30" y1="240" x2="62" y2="240" stroke="#1a1a1a" strokeWidth="1" opacity=".35"/>
-      </g>
-      {/* satellite */}
-      <g id="g-satellite" transform="rotate(-25, 195, 135)">
-        <rect x="188" y="126" width="20" height="14" rx="2" fill="#f5f4f0" stroke="#1a1a1a" strokeWidth="1.5" strokeLinejoin="round"/>
-        <rect x="160" y="128" width="24" height="10" rx="1.5" fill="#cce0ff" stroke="#1a1a1a" strokeWidth="1.2"/>
-        <line x1="168" y1="128" x2="168" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-        <line x1="176" y1="128" x2="176" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-        <line x1="184" y1="133" x2="188" y2="133" stroke="#1a1a1a" strokeWidth="1.2"/>
-        <rect x="212" y="128" width="24" height="10" rx="1.5" fill="#cce0ff" stroke="#1a1a1a" strokeWidth="1.2"/>
-        <line x1="220" y1="128" x2="220" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-        <line x1="228" y1="128" x2="228" y2="138" stroke="#1a1a1a" strokeWidth=".6" opacity=".4"/>
-        <line x1="208" y1="133" x2="212" y2="133" stroke="#1a1a1a" strokeWidth="1.2"/>
-        <line x1="198" y1="126" x2="198" y2="116" stroke="#1a1a1a" strokeWidth="1" strokeLinecap="round"/>
-        <circle cx="198" cy="114" r="2.5" fill="none" stroke="#1a1a1a" strokeWidth="1"/>
-        <line x1="208" y1="128" x2="214" y2="120" stroke="#1a1a1a" strokeWidth=".8" strokeLinecap="round"/>
-        <circle cx="215" cy="119" r="1.5" fill="#1a1a1a" opacity=".4"/>
-        <circle cx="198" cy="133" r="3.5" fill="#2a6dd9" stroke="#1a1a1a" strokeWidth="1"/>
-        <circle cx="198" cy="133" r="2"   fill="#cce0ff"/>
-        <path d="M 202 118 C 207 113, 213 113, 216 118" fill="none" stroke="#1a1a1a" strokeWidth=".8" strokeLinecap="round" strokeDasharray="2 2" opacity=".5"/>
-        <path d="M 204 115 C 210 108, 218 108, 222 115" fill="none" stroke="#1a1a1a" strokeWidth=".6" strokeLinecap="round" strokeDasharray="2 2" opacity=".3"/>
-      </g>
-      {/* asteroid top mid */}
-      <g id="g-ast1">
-        <path d="M 420 60 C 428 53,440 55,446 63 C 452 71,448 83,438 87 C 428 91,416 85,414 75 C 412 67,415 63,420 60 Z" fill="#e0dcd4" stroke="#1a1a1a" strokeWidth="1.3" strokeLinejoin="round"/>
-        <circle cx="424" cy="268" r="2"   fill="#1a1a1a" opacity=".18"/>
-        <circle cx="436" cy="477" r="1.5" fill="#1a1a1a" opacity=".13"/>
-      </g>
-      {/* asteroid bottom right */}
-      <g id="g-ast2">
-        <path d="M 825 485 C 835 477,851 479,857 489 C 863 499,857 513,845 516 C 833 519,821 511,821 499 C 821 491,823 489,825 485 Z" fill="#e0dcd4" stroke="#1a1a1a" strokeWidth="1.3" strokeLinejoin="round"/>
-        <circle cx="531" cy="495" r="2.2" fill="#1a1a1a" opacity=".16"/>
-      </g>
-      {/* nebula */}
-      <g id="g-nebula">
-        <path d="M 395 435 C 407 423,427 421,439 431 C 453 421,469 427,465 441 C 477 449,473 465,459 468 C 453 479,437 483,427 473 C 413 481,397 475,395 463 C 381 457,379 443,395 435 Z" fill="none" stroke="#1a1a1a" strokeWidth="1" opacity=".45"/>
-        <path d="M 407 439 C 415 431,429 431,437 439 C 447 433,457 441,453 451 C 459 457,455 467,445 468 C 441 475,429 478,421 471 C 411 475,401 469,401 459 C 393 453,393 443,407 439 Z" fill="none" stroke="#1a1a1a" strokeWidth=".6" strokeDasharray="3 3" opacity=".3"/>
-        <circle cx="418" cy="445" r="1.1" fill="#1a1a1a" opacity=".45"/>
-        <circle cx="436" cy="441" r=".9"  fill="#1a1a1a" opacity=".38"/>
-        <circle cx="448" cy="453" r="1"   fill="#1a1a1a" opacity=".4"/>
-        <circle cx="428" cy="463" r=".8"  fill="#1a1a1a" opacity=".35"/>
-        <path d="M 465 443 C 473 438,479 435,485 431" fill="none" stroke="#1a1a1a" strokeWidth=".7" strokeLinecap="round" strokeDasharray="2 3" opacity=".28"/>
       </g>
 
-      {/* ── orbit deco — style sama, sekarang dashoffset jalan saat scroll ── */}
+      {/* satu-satunya planet: ringed, kanan atas */}
+      <g>
+        <ellipse cx={PLANET.x} cy={PLANET.y} rx="30" ry="12" fill="none" stroke="#1a1a1a" strokeWidth="1.2"/>
+        <circle  cx={PLANET.x} cy={PLANET.y} r="20" fill="#e8e4dc" stroke="#1a1a1a" strokeWidth="1.5"/>
+        <ellipse cx={PLANET.x} cy={PLANET.y} rx="30" ry="12" fill="none" stroke="#1a1a1a" strokeWidth="1.2" strokeDasharray="16 12" strokeDashoffset="8"/>
+      </g>
+
+      {/* orbit deco — dashoffset jalan saat scroll */}
       <ellipse
         cx="450" cy="310"
         rx="390" ry="115"
         fill="none"
         stroke="#1a1a1a"
         strokeWidth="1"
-        strokeDasharray={`6 8`}
+        strokeDasharray="6 8"
         strokeDashoffset={-orbitOffset}
-        opacity="1"
       />
     </svg>
   );
 }
 
-// ── Floating ornament wrapper (idle float) — IDENTIK ───────────────
-const floatConfigs: Record<string, { amp: number; speed: number; phase: number }> = {
-  "g-planet1": { amp: 3.5, speed: 0.7,  phase: 0   },
-  "g-planet2": { amp: 2.5, speed: 0.55, phase: 1.2 },
-  "g-planet3": { amp: 2,   speed: 0.9,  phase: 0.5 },
-  "g-rocket":  { amp: 4,   speed: 0.65, phase: 0.8 },
-  "g-ast1":    { amp: 3,   speed: 0.85, phase: 0.3 },
-  "g-ast2":    { amp: 2,   speed: 0.6,  phase: 1.5 },
-  "g-nebula":  { amp: 1.5, speed: 0.5,  phase: 0.9 },
-};
+// ── Pesawat: roket + UFO, gerak abstrak, jejak cepat hilang ────────
+const ROCKET_W = 22;
+const ROCKET_H = 40;
+const UFO_W = 34;
+const UFO_H = 20;
+const TRAIL_LIFE = 1600; // ms sebelum jejak hilang
+const PUFF_EVERY = 80;   // ms antar titik jejak
 
-function useIdleFloat(id: string) {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+type Puff = { x: number; y: number; t: number };
+
+function CraftLayer() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rocketRef = useRef<HTMLDivElement>(null);
+  const ufoRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const cfg = floatConfigs[id];
-    if (!cfg) return;
-    let raf: number;
-    const loop = (ts: number) => {
-      const y = Math.sin(ts * 0.001 * cfg.speed + cfg.phase) * cfg.amp;
-      const x = Math.cos(ts * 0.001 * cfg.speed * 0.6 + cfg.phase) * cfg.amp * 0.4;
-      setPos({ x, y });
-      raf = requestAnimationFrame(loop);
+    const wrap = wrapRef.current;
+    const canvas = canvasRef.current;
+    const rocket = rocketRef.current;
+    const ufo = ufoRef.current;
+    if (!wrap || !canvas || !rocket || !ufo) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // hormati prefers-reduced-motion: roket & UFO tidak ditampilkan
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let w = 0;
+    let h = 0;
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      w = wrap.clientWidth;
+      h = wrap.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [id]);
-  return pos;
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(wrap);
+
+    // lintasan abstrak roket: gabungan beberapa gelombang sin/cos
+    const rocketPath = (t: number) => {
+      const s = t * 0.001;
+      return {
+        x: w * (0.5 + 0.38 * Math.sin(s * 0.27) + 0.07 * Math.sin(s * 0.83 + 1.3)),
+        y: h * (0.5 + 0.34 * Math.sin(s * 0.21 + 0.8) + 0.07 * Math.cos(s * 0.61)),
+      };
+    };
+
+    // lintasan UFO: frekuensi & fase beda supaya tidak ikut jalur roket
+    const ufoPath = (t: number) => {
+      const s = t * 0.001;
+      return {
+        x: w * (0.5 + 0.36 * Math.sin(s * 0.19 + 2.1) + 0.09 * Math.sin(s * 0.71 + 0.4)),
+        y: h * (0.5 + 0.3 * Math.sin(s * 0.33 + 1.7) + 0.08 * Math.cos(s * 0.47)),
+      };
+    };
+
+    // pause kalau section tidak terlihat
+    let visible = true;
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
+    io.observe(wrap);
+
+    const rocketPuffs: Puff[] = [];
+    const ufoPuffs: Puff[] = [];
+    let lastRocketPuff = 0;
+    let lastUfoPuff = 0;
+    let raf = 0;
+
+    const drawPuffs = (list: Puff[], now: number) => {
+      while (list.length && now - list[0].t > TRAIL_LIFE) list.shift();
+      for (const q of list) {
+        const k = (now - q.t) / TRAIL_LIFE; // 0 → 1
+        ctx.globalAlpha = 0.4 * (1 - k);
+        ctx.beginPath();
+        ctx.arc(q.x, q.y, 2.2 * (1 - k * 0.5), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    const frame = (now: number) => {
+      raf = requestAnimationFrame(frame);
+      if (!visible) return;
+
+      // ── roket: hidung mengikuti arah gerak ──
+      const p = rocketPath(now);
+      const n = rocketPath(now + 40);
+      const ang = Math.atan2(n.y - p.y, n.x - p.x);
+      rocket.style.opacity = "1";
+      rocket.style.transform = `translate3d(${p.x - ROCKET_W / 2}px, ${p.y - ROCKET_H / 2}px, 0) rotate(${ang + Math.PI / 2}rad)`;
+      if (now - lastRocketPuff > PUFF_EVERY) {
+        lastRocketPuff = now;
+        const tail = ROCKET_H / 2 + 1;
+        rocketPuffs.push({ x: p.x - Math.cos(ang) * tail, y: p.y - Math.sin(ang) * tail, t: now });
+      }
+
+      // ── UFO: tetap mendatar, hanya miring sedikit mengikuti gerak ──
+      const u = ufoPath(now);
+      const un = ufoPath(now + 40);
+      const dx = un.x - u.x;
+      const dy = un.y - u.y;
+      const tilt = Math.max(-14, Math.min(14, dx * 2.5));
+      ufo.style.opacity = "1";
+      ufo.style.transform = `translate3d(${u.x - UFO_W / 2}px, ${u.y - UFO_H / 2}px, 0) rotate(${tilt}deg)`;
+      if (now - lastUfoPuff > PUFF_EVERY) {
+        lastUfoPuff = now;
+        const len = Math.hypot(dx, dy) || 1;
+        const back = UFO_W * 0.4;
+        ufoPuffs.push({ x: u.x - (dx / len) * back, y: u.y - (dy / len) * back + 3, t: now });
+      }
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#1a1a1a";
+      drawPuffs(rocketPuffs, now);
+      drawPuffs(ufoPuffs, now);
+      ctx.globalAlpha = 1;
+    };
+    raf = requestAnimationFrame(frame);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      io.disconnect();
+    };
+  }, []);
+
+  return (
+    <div ref={wrapRef} className="absolute inset-0">
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+
+      {/* roket */}
+      <div
+        ref={rocketRef}
+        className="absolute left-0 top-0"
+        style={{ width: ROCKET_W, height: ROCKET_H, opacity: 0, willChange: "transform" }}
+      >
+        <svg viewBox="0 0 24 44" width="100%" height="100%" fill="none" stroke="#1a1a1a" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round">
+          {/* api — berkedip */}
+          <motion.g
+            style={{ transformBox: "fill-box", transformOrigin: "50% 0%" }}
+            animate={{ scaleY: [1, 1.35, 0.85, 1.2, 1] }}
+            transition={{ duration: 0.45, repeat: Infinity, ease: "linear" }}
+          >
+            <path d="M8.5 28 Q12 42 15.5 28 Z" />
+            <path d="M10.6 28 Q12 35 13.4 28" />
+          </motion.g>
+          {/* sirip */}
+          <path d="M8 21 L3 30 L8 28 Z" fill="#fff" />
+          <path d="M16 21 L21 30 L16 28 Z" fill="#fff" />
+          {/* badan */}
+          <path d="M12 2 C16 8 17 17 16 28 L8 28 C7 17 8 8 12 2 Z" fill="#fff" />
+          {/* jendela */}
+          <circle cx="12" cy="14" r="2.4" />
+        </svg>
+      </div>
+
+      {/* UFO */}
+      <div
+        ref={ufoRef}
+        className="absolute left-0 top-0"
+        style={{ width: UFO_W, height: UFO_H, opacity: 0, willChange: "transform" }}
+      >
+        <svg viewBox="0 0 40 24" width="100%" height="100%" fill="none" stroke="#1a1a1a" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round">
+          {/* kubah */}
+          <path d="M12 12 C12 3.5 28 3.5 28 12 Z" fill="#fff" />
+          {/* badan piring */}
+          <ellipse cx="20" cy="13" rx="18" ry="6" fill="#fff" />
+          {/* lampu */}
+          <circle cx="11" cy="14" r="1" fill="#1a1a1a" stroke="none" />
+          <circle cx="20" cy="15" r="1" fill="#1a1a1a" stroke="none" />
+          <circle cx="29" cy="14" r="1" fill="#1a1a1a" stroke="none" />
+        </svg>
+      </div>
+    </div>
+  );
 }
 
 // ── Project card — IDENTIK ─────────────────────────────────────────
@@ -296,12 +440,10 @@ export default function ProjectsSection() {
   const smooth = useSpring(scrollYProgress, { stiffness: 50, damping: 18 });
 
   // orbit: dashoffset jalan seiring scroll
-  // perimeter ellipse ≈ 2π√((390²+115²)/2) ≈ 1610px
   const P = ellipsePerim(390, 115);
   useEffect(() => {
     return smooth.on("change", (v) => {
-      // offset bergerak 0 → P (satu keliling penuh) selama full scroll
-      setOrbitOffset(v * P * 0.05); // dikali 0.1 supaya gak terlalu cepat
+      setOrbitOffset(v * P * 0.05);
 
       // ganti project berdasarkan progress
       const idx = Math.min(projects.length - 1, Math.floor(v * projects.length));
@@ -312,7 +454,7 @@ export default function ProjectsSection() {
     });
   }, [smooth, P]);
 
-  // keyboard fallback — TETAP ADA seperti aslinya
+  // keyboard fallback
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
@@ -326,27 +468,14 @@ export default function ProjectsSection() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // idle float — IDENTIK
-  const planet1 = useIdleFloat("g-planet1");
-  const planet2 = useIdleFloat("g-planet2");
-  const planet3 = useIdleFloat("g-planet3");
-  const rocket  = useIdleFloat("g-rocket");
-  const ast1    = useIdleFloat("g-ast1");
-  const ast2    = useIdleFloat("g-ast2");
-  const nebula  = useIdleFloat("g-nebula");
-
-  const floatStyle = (pos: { x: number; y: number }) => ({
-    transform: `translate(${pos.x}px, ${pos.y}px)`,
-  });
-
   return (
     // ── wrapper tinggi untuk scroll ──────────────────────────────────
     <div ref={containerRef} style={{ height: `${projects.length * 100}vh` }}>
       <div
-        className="sticky top-0 relative w-full overflow-hidden"
-        style={{ background: "#f0ede6", height: "100vh" }}
+        className="sticky top-0 w-full overflow-hidden"
+        style={{ background: "#fff", height: "100vh" }}
       >
-        {/* heading — IDENTIK */}
+        {/* heading */}
         <div className="absolute top-6 left-9 z-10 pointer-events-none">
           <h2 className="text-2xl font-black tracking-tight text-[#1a1a1a]">
             PROJECTS<span style={{ color: "#f5c842" }}>.</span>
@@ -354,7 +483,7 @@ export default function ProjectsSection() {
           <p className="text-[9px] tracking-[.15em] opacity-35 mt-0.5 text-[#1a1a1a]">SELECTED WORK</p>
         </div>
 
-        {/* progress dots — IDENTIK style, scroll-driven state */}
+        {/* progress dots */}
         <div className="absolute top-8 right-9 z-10 flex gap-2">
           {projects.map((_, i) => (
             <div
@@ -365,23 +494,13 @@ export default function ProjectsSection() {
           ))}
         </div>
 
-        {/* space ornaments layer — IDENTIK */}
+        {/* space ornaments layer */}
         <div className="absolute inset-0 pointer-events-none z-1">
           <SpaceOrnaments orbitOffset={orbitOffset} />
-          {[
-            { id: "planet1", pos: planet1, style: { position: "absolute" as const, top: 70,  right: 60,  width: 70,  height: 30 } },
-            { id: "planet2", pos: planet2, style: { position: "absolute" as const, bottom: 60, left: 40,  width: 80,  height: 60 } },
-            { id: "planet3", pos: planet3, style: { position: "absolute" as const, top: 200, left: 20,   width: 40,  height: 40 } },
-            { id: "rocket",  pos: rocket,  style: { position: "absolute" as const, top: 60,  left: 140,  width: 60,  height: 80 } },
-            { id: "ast1",    pos: ast1,    style: { position: "absolute" as const, top: 10,  left: "45%", width: 50, height: 45 } },
-            { id: "ast2",    pos: ast2,    style: { position: "absolute" as const, bottom: 50, right: 50, width: 60, height: 50 } },
-            { id: "nebula",  pos: nebula,  style: { position: "absolute" as const, bottom: 30, left: "42%", width: 120, height: 70 } },
-          ].map(({ id, pos, style }) => (
-            <div key={id} style={{ ...style, ...floatStyle(pos), transition: "transform 0.05s linear" }} />
-          ))}
+          <CraftLayer />
         </div>
 
-        {/* main content — IDENTIK */}
+        {/* main content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-9 gap-8">
           <AnimatePresence mode="wait" custom={direction}>
             <ProjectCard key={`card-${cur}`} project={projects[cur]} direction={direction} />
@@ -393,7 +512,7 @@ export default function ProjectsSection() {
           </div>
         </div>
 
-        {/* nav buttons — IDENTIK style, sekarang jadi scroll indicator */}
+        {/* scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4">
           <span className="text-[10px] tracking-widest opacity-50 min-w-13 text-center text-[#1a1a1a]">
             0{cur + 1} / 0{projects.length}
