@@ -19,7 +19,7 @@ const STOPS = [
   { city: "Makkah", country: "Arab Saudi", note: "Masjidil Haram", lon: 39.83, lat: 21.42 },
   { city: "Roma", country: "Italia", note: "Colosseum & Pisa", lon: 12.5, lat: 41.9 },
   {city: "Chongqing", country: "China", lon: 106.55, lat: 29.56},
-  {city: "Xinjiang", country: "China", lon: 87.62, lat: 43.79},
+  {city: "Shigatse", country: "China", lon: 88.88, lat: 29.26},
   { city: "Leeds", country: "Inggris", lon: -1.55, lat: 53.8 },
   { city: "Prague", country: "Ceko", lon: 14.42, lat: 50.08 },
   { city: "Barcelona", country: "Spanyol", note: "Sagrada Família", lon: 2.17, lat: 41.39 },
@@ -32,7 +32,9 @@ const STOPS = [
   {city: "Almaty", country: "Kazakhstan", lon: 76.95, lat: 43.25},
   {city: "Budapest", country: "Hungaria", lon: 19.04, lat: 47.5},
   {city: "Halstatt", country: "Austria", lon: 13.65, lat: 47.56},
-  {city: "Cairo", country: "Mesir", lon: 31.23, lat: 30.05},];
+  {city: "Cairo", country: "Mesir", lon: 31.23, lat: 30.05},
+  {city: "Shangri-la", country: "China", lon: 99.7, lat: 27.83},
+  ];
 
 /* ------------------------------------------------------------------ */
 /* 2. PROYEKSI & AREA — HARUS sama dengan build-map.mjs               */
