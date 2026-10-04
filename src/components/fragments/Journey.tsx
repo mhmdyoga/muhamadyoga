@@ -32,7 +32,7 @@ const STOPS = [
   {city: "Almaty", country: "Kazakhstan", lon: 76.95, lat: 43.25},
   {city: "Budapest", country: "Hungaria", lon: 19.04, lat: 47.5},
   {city: "Halstatt", country: "Austria", lon: 13.65, lat: 47.56},
-];
+  {city: "Cairo", country: "Mesir", lon: 31.23, lat: 30.05},];
 
 /* ------------------------------------------------------------------ */
 /* 2. PROYEKSI & AREA — HARUS sama dengan build-map.mjs               */
