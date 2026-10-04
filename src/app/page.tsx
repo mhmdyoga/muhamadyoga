@@ -3,7 +3,6 @@ import ExperienceSection from "@/components/fragments/Experience";
 import ProjectsSection from "@/components/fragments/Project";
 import ScrollPortfolio from "@/components/fragments/ScrollPortfolio";
 import WordsPreloaderDemo from "@/components/fragments/WordsPreloader";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 
 const RocketJourneyMap = dynamic(() => import("@/components/fragments/Journey"), {

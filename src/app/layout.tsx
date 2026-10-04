@@ -53,6 +53,7 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
+      <meta name="google-site-verification" content="fsB-ccS3HtxpR0TU_e2NPTVqJoxVujNwSJNjQ-A13YY" />
       <LenisProvider>
          <body className="">
         {children}
