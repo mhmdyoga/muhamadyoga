@@ -40,14 +40,14 @@ const STOPS: StopDef[] = [
   {
     title: "Frontend",
     sub: "Antarmuka & animasi",
-    items: ["Next.js / React", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP"],
+    items: ["Next.js / React", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP", "Zod", "Zustand", "Redux Toolkit", "Tanstack Query", "Axios"],
     x: 1200,
     kind: "ring",
   },
   {
     title: "Backend",
     sub: "API & server",
-    items: ["Node.js", "Express.js", "Golang", "Gin"],
+    items: ["Node.js", "Express.js", "Golang", "Gin", "Gothic", "Zod", "Helmet.js", "Passport.js", "Bcrypt", "Rate-limiter"],
     x: 2700,
     kind: "bands",
   },
