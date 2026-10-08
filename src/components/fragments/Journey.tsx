@@ -31,10 +31,13 @@ const STOPS = [
   {city: "Lhasa", country: "Tibet", lon: 91.13, lat: 29.65},
   {city: "Almaty", country: "Kazakhstan", lon: 76.95, lat: 43.25},
   {city: "Budapest", country: "Hungaria", lon: 19.04, lat: 47.5},
-  {city: "Halstatt", country: "Austria", lon: 13.65, lat: 47.56},
+  {city: "Hallstatt", country: "Austria", lon: 13.65, lat: 47.56},
   {city: "Cairo", country: "Mesir", lon: 31.23, lat: 30.05},
   {city: "Shangri-la", country: "China", lon: 99.7, lat: 27.83},
-  ];
+  {city: "Salzburg", country: "Austria", note: "Wolfgang Amadeus Mozart", lon:13.03 , lat: 47.81 },
+  { city: "La Roque-Gageac", country: "France", note: "La Roque Village", lon: 1.18, lat: 44.83 },
+  {city: "Mostar", country: "Bosnia & Herzegovina", note: "Kravice Waterfall", lon: 17.81, lat: 43.34 }
+];
 
 /* ------------------------------------------------------------------ */
 /* 2. PROYEKSI & AREA — HARUS sama dengan build-map.mjs               */
@@ -287,7 +290,7 @@ export default function RocketJourneyMap({ scrollLength = "600vh", follow = fals
                   exit={{ opacity: 0, y: reduce ? 0 : -12 }}
                   transition={fade}
                 >
-                  <h2 style={{ margin: 0, fontSize: "clamp(2rem, 6vw, 3.25rem)", lineHeight: 1.05 }}>{stop.city}</h2>
+                  <h2 style={{ margin: 0, fontSize: "clamp(2rem, 6vw, 3.25rem)", lineHeight: 1.05, color: "var(--jm-accent)" }}>{stop.city}</h2>
                   <p style={{ margin: "8px 0 0", color: "var(--jm-muted)" }}>
                     {stop.country}
                     {stop.note ? ` · ${stop.note}` : ""}

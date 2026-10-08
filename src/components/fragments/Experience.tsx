@@ -351,14 +351,14 @@ function Mark({ children }: { children: ReactNode }) {
 function Photo() {
   const [failed, setFailed] = useState(false);
   return (
-    <div className="relative mx-auto w-full max-w-[240px] md:max-w-[300px]">
+    <div className="relative mx-auto w-full max-w-60 md:max-w-75">
       <div
         aria-hidden
         className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border-2 border-[#1a1a1a]"
         style={{ background: "#f5c842" }}
       />
       <div
-        className="relative aspect-[3/4] -rotate-2 overflow-hidden rounded-3xl border-2 border-[#1a1a1a]"
+        className="relative aspect-3/4 -rotate-2 overflow-hidden rounded-3xl border-2 border-[#1a1a1a]"
         style={{ background: "#fff8e8" }}
       >
         {failed ? (
@@ -520,7 +520,7 @@ function MusicPlayer({ onBack }: { onBack: () => void }) {
             </div>
 
             {/* placeholder terlihat selagi embed dimuat / kalau gagal */}
-            <div className="relative isolate h-[352px] w-full">
+            <div className="relative isolate h-88 w-full">
               <div
                 className="absolute inset-0 -z-10 flex items-center justify-center rounded-xl text-[10px] uppercase tracking-widest text-[#1a1a1a]/40"
                 style={{ background: "rgba(26,26,26,0.06)" }}
@@ -572,7 +572,7 @@ export default function ExperienceSection() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative w-full bg-[#fff]" style={{ overflowX: "clip" }}>
+      <section className="relative w-full bg-white" style={{ overflowX: "clip" }}>
         <div className="relative flex min-h-screen flex-col items-center justify-center gap-12 px-6 py-20 md:px-9">
           <motion.h2
             key={view}

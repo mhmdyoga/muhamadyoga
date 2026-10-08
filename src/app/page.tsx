@@ -1,7 +1,9 @@
 "use client"
+import CertificateConstellation from "@/components/fragments/Certificate";
 import ExperienceSection from "@/components/fragments/Experience";
 import ProjectsSection from "@/components/fragments/Project";
 import ScrollPortfolio from "@/components/fragments/ScrollPortfolio";
+import TechStackRoad from "@/components/fragments/TechStackRoad";
 import WordsPreloaderDemo from "@/components/fragments/WordsPreloader";
 import dynamic from "next/dynamic";
 
@@ -23,9 +25,11 @@ export default function Home() {
     <>
       <WordsPreloaderDemo/>
         <ScrollPortfolio/>
-        <ProjectsSection/>
+        <ProjectsSection/> 
         <ExperienceSection/>
         <RocketJourneyMap scrollLength="1000vh"/>
+        <TechStackRoad/>
+        <CertificateConstellation/>
         <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
